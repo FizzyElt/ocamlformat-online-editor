@@ -1,0 +1,4 @@
+profile = janestreet
+sequence-blank-line = preserve-one
+module-item-spacing = sparse
+exp-grouping = preserve
