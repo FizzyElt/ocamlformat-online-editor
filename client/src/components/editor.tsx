@@ -5,25 +5,28 @@ import * as monaco from "monaco-editor-core";
 import { useEffect, useRef } from "react";
 import { createHighlighter } from "shiki";
 
-// Create the highlighter, it can be reused
-const highlighter = await createHighlighter({
-  themes: ["vitesse-dark", "vitesse-light"],
-  langs: ["javascript", "typescript", "ocaml"],
-});
+(async () => {
+  // Create the highlighter, it can be reused
+  const highlighter = await createHighlighter({
+    themes: ["vitesse-dark", "vitesse-light", "one-dark-pro", "one-light"],
+    langs: ["javascript", "typescript", "ocaml"],
+  });
 
-monaco.languages.register({ id: "javascript" });
-monaco.languages.register({ id: "typescript" });
-monaco.languages.register({ id: "ocaml" });
+  monaco.languages.register({ id: "javascript" });
+  monaco.languages.register({ id: "typescript" });
+  monaco.languages.register({ id: "ocaml" });
 
-shikiToMonaco(highlighter, monaco);
+  shikiToMonaco(highlighter, monaco);
+})();
 
 interface EditorProps extends BoxProps {
   codeContent: string;
+  triggerKey: number;
   onCodeChange: (code: string) => void;
 }
 
 const Editor = (props: EditorProps) => {
-  const { codeContent, onCodeChange, ...restProps } = props;
+  const { codeContent, onCodeChange, triggerKey, ...restProps } = props;
   const boxRef = useRef(null);
   const editorRef = useRef<monaco.editor.IStandaloneCodeEditor>(null);
 
@@ -32,7 +35,8 @@ const Editor = (props: EditorProps) => {
       const editor = monaco.editor.create(boxRef.current, {
         value: codeContent,
         language: "ocaml",
-        theme: "vitesse-dark",
+        theme: "one-dark-pro",
+        autoDetectHighContrast: false,
       });
 
       editor.onEndUpdate(() => {
@@ -43,11 +47,13 @@ const Editor = (props: EditorProps) => {
     }
   }, []);
 
-  return (
-    <Box {...restProps} h="500px">
-      <div ref={boxRef} style={{ height: "500px" }}></div>
-    </Box>
-  );
+  useEffect(() => {
+    if (triggerKey) {
+      editorRef.current?.setValue(codeContent);
+    }
+  }, [triggerKey]);
+
+  return <Box {...restProps} margin="2" ref={boxRef}></Box>;
 };
 
 export default Editor;

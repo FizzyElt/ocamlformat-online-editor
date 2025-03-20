@@ -3,7 +3,7 @@ import App from "./App.tsx";
 import { Provider } from "@/components/ui/provider.tsx";
 
 createRoot(document.getElementById("root")!).render(
-  <Provider>
+  <Provider forcedTheme="light">
     <App />
   </Provider>,
 );
