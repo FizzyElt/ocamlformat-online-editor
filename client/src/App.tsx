@@ -1,4 +1,12 @@
-import { Flex, Spacer, Box, Button, Grid, GridItem } from "@chakra-ui/react";
+import {
+  Flex,
+  Spacer,
+  Box,
+  Button,
+  Grid,
+  GridItem,
+  Link,
+} from "@chakra-ui/react";
 import Editor from "./components/editor";
 import { useState } from "react";
 import ConfigForm from "./ConfigForm";
@@ -44,7 +52,7 @@ function App() {
         </GridItem>
         <GridItem colSpan={1} rowSpan={2} overflowY="scroll">
           <Box>
-            <Flex mb={4} pl={4}>
+            <Flex mb={4} mt={2} px={4}>
               <Button
                 size="xs"
                 colorPalette="blue"
@@ -62,6 +70,13 @@ function App() {
                 format
               </Button>
               <Spacer />
+              <Link
+                variant="underline"
+                href="https://github.com/FizzyElt/ocamlformat-online-editor"
+                target="_blank"
+              >
+                Github
+              </Link>
             </Flex>
             <ConfigForm config={config} onChange={setConfig} />
           </Box>
