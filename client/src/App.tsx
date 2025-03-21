@@ -1,16 +1,9 @@
-import {
-  Flex,
-  Spacer,
-  Box,
-  SimpleGrid,
-  Button,
-  Grid,
-  GridItem,
-} from "@chakra-ui/react";
+import { Flex, Spacer, Box, Button, Grid, GridItem } from "@chakra-ui/react";
 import Editor from "./components/editor";
 import { useState } from "react";
 import ConfigForm from "./ConfigForm";
 import { Config, defaultConfig } from "./type";
+import ConfigBlock from "./components/config_block";
 
 if (!import.meta.env.DEV) {
   // @ts-ignore
@@ -73,7 +66,9 @@ function App() {
             <ConfigForm config={config} onChange={setConfig} />
           </Box>
         </GridItem>
-        <GridItem colSpan={1} rowSpan={1}></GridItem>
+        <GridItem colSpan={1} rowSpan={1}>
+          <ConfigBlock config={config} />
+        </GridItem>
       </Grid>
     </Box>
   );

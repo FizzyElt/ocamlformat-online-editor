@@ -1,4 +1,5 @@
 export type Config = {
+  profile: string;
   align_symbol_open_paren: string;
   assignment_operator: string;
   break_around_multiline_strings: string;
@@ -14,25 +15,34 @@ export type Config = {
   break_sequences: string;
   break_string_literals: string;
   break_struct: string;
+  cases_exp_indent: string;
   cases_matching_exp_indent: string;
   disambiguate_non_breaking_match: string;
   doc_comments: string;
+  doc_comments_padding: string;
   doc_comments_tag_only: string;
   dock_collection_brackets: string;
   exp_grouping: string;
+  extension_indent: string;
   field_space: string;
+  function_indent: string;
   function_indent_nested: string;
   if_then_else: string;
+  indent_after_in: string;
   indicate_multiline_delimiters: string;
   indicate_nested_or_patterns: string;
   infix_precedence: string;
   leading_nested_match_parens: string;
   let_and: string;
+  let_binding_indent: string;
   let_binding_deindent_fun: string;
   let_binding_spacing: string;
   let_module: string;
   line_endings: string;
+  margin: string;
+  match_indent: string;
   match_indent_nested: string;
+  max_indent: string;
   module_item_spacing: string;
   nested_match: string;
   ocp_indent_compat: string;
@@ -47,13 +57,16 @@ export type Config = {
   space_around_lists: string;
   space_around_records: string;
   space_around_variants: string;
+  stritem_extension_indent: string;
   type_decl: string;
+  type_decl_indent: string;
   wrap_comments: string;
   wrap_docstrings: string;
   wrap_fun_args: string;
 };
 
 export const defaultConfig: Config = {
+  profile: "",
   align_symbol_open_paren: "",
   assignment_operator: "",
   break_around_multiline_strings: "",
@@ -69,25 +82,34 @@ export const defaultConfig: Config = {
   break_sequences: "",
   break_string_literals: "",
   break_struct: "",
+  cases_exp_indent: "",
   cases_matching_exp_indent: "",
   disambiguate_non_breaking_match: "",
   doc_comments: "",
+  doc_comments_padding: "",
   doc_comments_tag_only: "",
   dock_collection_brackets: "",
   exp_grouping: "",
+  extension_indent: "",
   field_space: "",
+  function_indent: "",
   function_indent_nested: "",
   if_then_else: "",
+  indent_after_in: "",
   indicate_multiline_delimiters: "",
   indicate_nested_or_patterns: "",
   infix_precedence: "",
   leading_nested_match_parens: "",
   let_and: "",
+  let_binding_indent: "",
   let_binding_deindent_fun: "",
   let_binding_spacing: "",
   let_module: "",
   line_endings: "",
+  margin: "",
+  match_indent: "",
   match_indent_nested: "",
+  max_indent: "",
   module_item_spacing: "",
   nested_match: "",
   ocp_indent_compat: "",
@@ -102,7 +124,9 @@ export const defaultConfig: Config = {
   space_around_lists: "",
   space_around_records: "",
   space_around_variants: "",
+  stritem_extension_indent: "",
   type_decl: "",
+  type_decl_indent: "",
   wrap_comments: "",
   wrap_docstrings: "",
   wrap_fun_args: "",
@@ -122,6 +146,11 @@ type IntOption = {
 const boolOptions = ["", "true", "false"];
 
 export const selectList: (StrOption | IntOption)[] = [
+  {
+    valueType: "str",
+    label: "profile",
+    options: ["", "default", "conventional", "ocamlformat", "janestreet"],
+  },
   {
     valueType: "str",
     label: "align_symbol_open_paren",
@@ -181,6 +210,7 @@ export const selectList: (StrOption | IntOption)[] = [
     options: ["", "auto", "never"],
   },
   { valueType: "str", label: "break_struct", options: boolOptions },
+  { valueType: "int", label: "cases_exp_indent" },
   {
     valueType: "str",
     label: "cases_matching_exp_indent",
@@ -196,6 +226,7 @@ export const selectList: (StrOption | IntOption)[] = [
     label: "doc_comments",
     options: ["", "before", "before_except_val", "after_when_possible"],
   },
+  { valueType: "int", label: "doc_comments_padding" },
   {
     valueType: "str",
     label: "doc_comments_tag_only",
@@ -207,11 +238,13 @@ export const selectList: (StrOption | IntOption)[] = [
     label: "exp_grouping",
     options: ["", "parens", "preserve"],
   },
+  { valueType: "int", label: "extension_indent" },
   {
     valueType: "str",
     label: "field_space",
     options: ["", "tight", "loose", "tight_decl"],
   },
+  { valueType: "int", label: "function_indent" },
   {
     valueType: "str",
     label: "function_indent_nested",
@@ -229,6 +262,7 @@ export const selectList: (StrOption | IntOption)[] = [
       "vertical",
     ],
   },
+  { valueType: "int", label: "indent_after_in" },
   {
     valueType: "str",
     label: "indicate_multiline_delimiters",
@@ -250,6 +284,7 @@ export const selectList: (StrOption | IntOption)[] = [
     options: boolOptions,
   },
   { valueType: "str", label: "let_and", options: ["", "compact", "sparse"] },
+  { valueType: "int", label: "let_binding_indent" },
   { valueType: "str", label: "let_binding_deindent_fun", options: boolOptions },
   {
     valueType: "str",
@@ -258,11 +293,14 @@ export const selectList: (StrOption | IntOption)[] = [
   },
   { valueType: "str", label: "let_module", options: ["", "compact", "sparse"] },
   { valueType: "str", label: "line_endings", options: ["", "lf", "crlf"] },
+  { valueType: "int", label: "margin" },
+  { valueType: "int", label: "match_indent" },
   {
     valueType: "str",
     label: "match_indent_nested",
     options: ["", "always", "auto", "never"],
   },
+  { valueType: "int", label: "max_indent" },
   {
     valueType: "str",
     label: "module_item_spacing",
@@ -301,7 +339,9 @@ export const selectList: (StrOption | IntOption)[] = [
   { valueType: "str", label: "space_around_lists", options: boolOptions },
   { valueType: "str", label: "space_around_records", options: boolOptions },
   { valueType: "str", label: "space_around_variants", options: boolOptions },
+  { valueType: "int", label: "stritem_extension_indent" },
   { valueType: "str", label: "type_decl", options: ["", "compact", "sparse"] },
+  { valueType: "int", label: "type_decl_indent" },
   { valueType: "str", label: "wrap_comments", options: boolOptions },
   { valueType: "str", label: "wrap_docstrings", options: boolOptions },
   { valueType: "str", label: "wrap_fun_args", options: boolOptions },

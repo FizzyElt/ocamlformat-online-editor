@@ -1,5 +1,5 @@
 (library
  (public_name ocamlfmt_js)
  (name lib)
- (modules formatter config)
+ (modules formatter config default_config)
  (libraries ocamlformat-lib js_of_ocaml))

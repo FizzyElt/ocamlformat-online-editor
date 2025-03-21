@@ -1,5 +1,6 @@
 import { Box, SimpleGrid } from "@chakra-ui/react";
 import SelectField from "./components/select_field";
+import NumberField from "./components/number_field";
 import { Config, selectList } from "./type";
 
 interface ConfigFormProps {
@@ -30,7 +31,14 @@ const ConfigForm = (props: ConfigFormProps) => {
               />
             );
           }
-          return null;
+          return (
+            <NumberField
+              key={item.label}
+              label={item.label}
+              value={config[item.label]}
+              onChange={(value) => onChange({ ...config, [item.label]: value })}
+            />
+          );
         })}
       </SimpleGrid>
     </Box>

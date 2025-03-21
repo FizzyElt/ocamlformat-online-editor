@@ -1,5 +1,6 @@
 open Ocamlformat_lib
 open Js_of_ocaml
+open Default_config
 
 let bool_values = [ "true", true; "false", false ]
 
@@ -285,20 +286,43 @@ let config_options =
   ]
 ;;
 
-(* int option *)
-(* 
-cases_exp_indent
-doc_comments_padding
-extension_indent
-function_indent
-indent_after_in
-let_binding_indent
-margin
-match_indent
-max_indent option
-stritem_extension_indent
-type_decl_indent
-*)
+let make_int_option_updater name updater =
+  let insert (conf : Conf.t) (value : string) =
+    try
+      let n = int_of_string value in
+      updater conf n
+    with
+    | Failure _ -> conf
+  in
+  name, insert
+;;
+
+let int_config_options =
+  let elt content = Conf.Elt.make content `Default in
+  [ make_int_option_updater "cases_exp_indent" (fun conf v ->
+      { conf with fmt_opts = { conf.fmt_opts with cases_exp_indent = elt v } })
+  ; make_int_option_updater "doc_comments_padding" (fun conf v ->
+      { conf with fmt_opts = { conf.fmt_opts with doc_comments_padding = elt v } })
+  ; make_int_option_updater "extension_indent" (fun conf v ->
+      { conf with fmt_opts = { conf.fmt_opts with extension_indent = elt v } })
+  ; make_int_option_updater "function_indent" (fun conf v ->
+      { conf with fmt_opts = { conf.fmt_opts with function_indent = elt v } })
+  ; make_int_option_updater "indent_after_in" (fun conf v ->
+      { conf with fmt_opts = { conf.fmt_opts with indent_after_in = elt v } })
+  ; make_int_option_updater "let_binding_indent" (fun conf v ->
+      { conf with fmt_opts = { conf.fmt_opts with let_binding_indent = elt v } })
+  ; make_int_option_updater "margin" (fun conf v ->
+      { conf with fmt_opts = { conf.fmt_opts with margin = elt v } })
+  ; make_int_option_updater "match_indent" (fun conf v ->
+      { conf with fmt_opts = { conf.fmt_opts with match_indent = elt v } })
+  ; make_int_option_updater "max_indent" (fun conf v ->
+      { conf with fmt_opts = { conf.fmt_opts with max_indent = elt (Some v) } })
+  ; make_int_option_updater "stritem_extension_indent" (fun conf v ->
+      { conf with fmt_opts = { conf.fmt_opts with stritem_extension_indent = elt v } })
+  ; make_int_option_updater "type_decl_indent" (fun conf v ->
+      { conf with fmt_opts = { conf.fmt_opts with type_decl_indent = elt v } })
+  ]
+;;
 
 type 'a matrix_js_t = 'a Js.js_array Js.t Js.js_array Js.t
 
@@ -317,12 +341,31 @@ let create_config (list : (string * string) list) =
   let htbl = Hashtbl.create (List.length list) in
   List.iter (fun (k, v) -> Hashtbl.add htbl k v) list;
 
-  let conf = Conf.default in
-  config_options
-  |> List.fold_left
-       (fun c (name, updater) ->
-          match Hashtbl.find_opt htbl name with
-          | Some v -> updater c v
-          | None -> c)
-       conf
+  let conf =
+    match Hashtbl.find_opt htbl "profile" with
+    | Some "default" -> default_profile
+    | Some "conventional" -> default_profile
+    | Some "ocamlformat" -> ocamlformat_profile
+    | Some "janestreet" -> janestreet_profile
+    | Some _ | None -> Conf.default
+  in
+  let conf =
+    config_options
+    |> List.fold_left
+         (fun c (name, updater) ->
+            match Hashtbl.find_opt htbl name with
+            | Some v -> updater c v
+            | None -> c)
+         conf
+  in
+  let conf =
+    int_config_options
+    |> List.fold_left
+         (fun c (name, updater) ->
+            match Hashtbl.find_opt htbl name with
+            | Some v -> updater c v
+            | None -> c)
+         conf
+  in
+  conf
 ;;
