@@ -8,12 +8,10 @@ import { createHighlighter } from "shiki";
 (async () => {
   // Create the highlighter, it can be reused
   const highlighter = await createHighlighter({
-    themes: ["vitesse-dark", "vitesse-light", "one-dark-pro", "one-light"],
-    langs: ["javascript", "typescript", "ocaml"],
+    themes: ["one-dark-pro", "one-light"],
+    langs: ["ocaml"],
   });
 
-  monaco.languages.register({ id: "javascript" });
-  monaco.languages.register({ id: "typescript" });
   monaco.languages.register({ id: "ocaml" });
 
   shikiToMonaco(highlighter, monaco);
@@ -53,7 +51,7 @@ const Editor = (props: EditorProps) => {
     }
   }, [triggerKey]);
 
-  return <Box {...restProps} margin="2" ref={boxRef}></Box>;
+  return <Box {...restProps} ref={boxRef}></Box>;
 };
 
 export default Editor;

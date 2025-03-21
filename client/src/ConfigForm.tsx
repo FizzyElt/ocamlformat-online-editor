@@ -1,6 +1,6 @@
-import { Box, Stack } from "@chakra-ui/react";
+import { Box, SimpleGrid } from "@chakra-ui/react";
 import SelectField from "./components/select_field";
-import { Config } from "./type";
+import { Config, selectList } from "./type";
 
 interface ConfigFormProps {
   config: Config;
@@ -12,19 +12,27 @@ const ConfigForm = (props: ConfigFormProps) => {
 
   return (
     <Box p={4}>
-      <Stack>
-        <SelectField
-          label="module_item_spacing"
-          value={config.module_item_spacing}
-          onChange={(value) =>
-            onChange({
-              ...config,
-              module_item_spacing: value,
-            })
+      <SimpleGrid columns={{ base: 1, xl: 2 }} gap={4}>
+        {selectList.map((item) => {
+          if (item.valueType === "str") {
+            return (
+              <SelectField
+                key={item.label}
+                label={item.label}
+                value={config[item.label]}
+                onChange={(value) =>
+                  onChange({
+                    ...config,
+                    [item.label]: value,
+                  })
+                }
+                options={item.options}
+              />
+            );
           }
-          options={["", "compact", "preserve", "sparse"]}
-        />
-      </Stack>
+          return null;
+        })}
+      </SimpleGrid>
     </Box>
   );
 };

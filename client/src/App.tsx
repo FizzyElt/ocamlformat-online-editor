@@ -1,8 +1,21 @@
-import { Box, SimpleGrid, Button } from "@chakra-ui/react";
+import {
+  Flex,
+  Spacer,
+  Box,
+  SimpleGrid,
+  Button,
+  Grid,
+  GridItem,
+} from "@chakra-ui/react";
 import Editor from "./components/editor";
 import { useState } from "react";
 import ConfigForm from "./ConfigForm";
-import { Config } from "./type";
+import { Config, defaultConfig } from "./type";
+
+if (!import.meta.env.DEV) {
+  // @ts-ignore
+  import("./main.bc.js").then(() => console.log("load success"));
+}
 
 declare global {
   interface Window {
@@ -12,36 +25,57 @@ declare global {
 function App() {
   const [content, setContent] = useState("");
   const [triggerKey, setTriggerKey] = useState(0);
-  const [config, setConfig] = useState<Config>({ module_item_spacing: "" });
+  const [config, setConfig] = useState<Config>(defaultConfig);
 
   return (
-    <SimpleGrid columns={2}>
-      <ConfigForm config={config} onChange={setConfig} />
-      <Box>
-        <Button
-          onClick={() => {
-            const configEntries = Object.entries(config).filter(
-              ([_, value]) => value !== "",
-            );
-            if (window.format) {
-              const result = window.format(configEntries, content);
-              setContent(result);
-              setTriggerKey(triggerKey + 1);
-            }
-          }}
-        >
-          format
-        </Button>
-        <Editor
-          triggerKey={triggerKey}
-          boxSizing="content-box"
-          minH="600px"
-          w="full"
-          codeContent={content}
-          onCodeChange={setContent}
-        />
-      </Box>
-    </SimpleGrid>
+    <Box w="100vw" h="100vh">
+      <Grid
+        gap={4}
+        p={5}
+        w="full"
+        h="full"
+        templateColumns="repeat(2, 1fr)"
+        templateRows="repeat(2, 1fr)"
+      >
+        <GridItem colSpan={1} rowSpan={1}>
+          <Box h="full">
+            <Editor
+              triggerKey={triggerKey}
+              boxSizing="content-box"
+              h="full"
+              w="full"
+              codeContent={content}
+              onCodeChange={setContent}
+            />
+          </Box>
+        </GridItem>
+        <GridItem colSpan={1} rowSpan={2} overflowY="scroll">
+          <Box>
+            <Flex mb={4} pl={4}>
+              <Button
+                size="xs"
+                colorPalette="blue"
+                onClick={() => {
+                  const configEntries = Object.entries(config).filter(
+                    ([_, value]) => value !== "",
+                  );
+                  if (window.format) {
+                    const result = window.format(configEntries, content);
+                    setContent(result);
+                    setTriggerKey(triggerKey + 1);
+                  }
+                }}
+              >
+                format
+              </Button>
+              <Spacer />
+            </Flex>
+            <ConfigForm config={config} onChange={setConfig} />
+          </Box>
+        </GridItem>
+        <GridItem colSpan={1} rowSpan={1}></GridItem>
+      </Grid>
+    </Box>
   );
 }
 

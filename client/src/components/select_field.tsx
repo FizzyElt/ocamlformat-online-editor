@@ -13,7 +13,7 @@ const SelectField = (props: SelectFieldProps) => {
   return (
     <Field.Root>
       <Field.Label>{label}</Field.Label>
-      <NativeSelect.Root>
+      <NativeSelect.Root size="sm">
         <NativeSelect.Field
           value={value}
           onChange={(e) => onChange(e.currentTarget.value)}
