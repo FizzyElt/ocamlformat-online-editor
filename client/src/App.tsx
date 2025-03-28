@@ -38,21 +38,17 @@ function App() {
         templateColumns="repeat(2, 1fr)"
         templateRows="repeat(2, 1fr)"
       >
-        <GridItem colSpan={1} rowSpan={1}>
-          <Box h="full">
-            <Editor
-              triggerKey={triggerKey}
-              boxSizing="content-box"
-              h="full"
-              w="full"
-              codeContent={content}
-              onCodeChange={setContent}
-            />
-          </Box>
-        </GridItem>
-        <GridItem colSpan={1} rowSpan={2} overflowY="scroll">
-          <Box>
-            <Flex mb={4} mt={2} px={4}>
+        <GridItem colSpan={1} rowSpan={1} overflowY="scroll">
+          <Box minH="full">
+            <Flex mb={4} px={4} pos="sticky" top={0} bg="white" zIndex="sticky">
+              <Link
+                variant="underline"
+                href="https://github.com/FizzyElt/ocamlformat-online-editor"
+                target="_blank"
+              >
+                Github
+              </Link>
+              <Spacer />
               <Button
                 size="xs"
                 colorPalette="blue"
@@ -69,19 +65,23 @@ function App() {
               >
                 format
               </Button>
-              <Spacer />
-              <Link
-                variant="underline"
-                href="https://github.com/FizzyElt/ocamlformat-online-editor"
-                target="_blank"
-              >
-                Github
-              </Link>
             </Flex>
             <ConfigForm config={config} onChange={setConfig} />
           </Box>
         </GridItem>
-        <GridItem colSpan={1} rowSpan={1}>
+        <GridItem colSpan={1} rowSpan={2}>
+          <Box h="full">
+            <Editor
+              triggerKey={triggerKey}
+              boxSizing="content-box"
+              h="full"
+              w="full"
+              codeContent={content}
+              onCodeChange={setContent}
+            />
+          </Box>
+        </GridItem>
+        <GridItem colSpan={1} rowSpan={1} overflowY="auto" pos="relative">
           <ConfigBlock config={config} />
         </GridItem>
       </Grid>

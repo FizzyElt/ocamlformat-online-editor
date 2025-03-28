@@ -10,18 +10,22 @@ const ConfigBlock = ({ config }: ConfigBlockProps) => {
   const configContent = selectList
     .map((item) => [item.label, config[item.label]])
     .filter(([_, value]) => value !== "")
-    .map(([key, value]) => `${key.replaceAll("_", "-")}=${value}`)
+    .map(
+      ([key, value]) =>
+        `${key.replaceAll("_", "-")}=${value.replaceAll("_", "-")}`,
+    )
     .join("\n");
 
   return (
     <Box
-      pos="relative"
       p={4}
       h="full"
       w="full"
+      minH="full"
       rounded="sm"
       border="solid 1px"
       borderColor="gray.300"
+      overflowY="scroll"
     >
       <Text color="gray.600" as="pre">
         {configContent}
