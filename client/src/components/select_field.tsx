@@ -21,7 +21,7 @@ const SelectField = (props: SelectFieldProps) => {
           {options.map((opt) => {
             return (
               <option key={opt === "" ? "empty" : opt} value={opt}>
-                {opt === "" ? "--" : opt}
+                {opt === "" ? "--" : opt.replaceAll("_", "-")}
               </option>
             );
           })}

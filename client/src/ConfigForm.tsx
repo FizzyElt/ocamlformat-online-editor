@@ -19,7 +19,7 @@ const ConfigForm = (props: ConfigFormProps) => {
             return (
               <SelectField
                 key={item.label}
-                label={item.label}
+                label={item.label.replaceAll("_", "-")}
                 value={config[item.label]}
                 onChange={(value) =>
                   onChange({
@@ -34,7 +34,7 @@ const ConfigForm = (props: ConfigFormProps) => {
           return (
             <NumberField
               key={item.label}
-              label={item.label}
+              label={item.label.replaceAll("_", "-")}
               value={config[item.label]}
               onChange={(value) => onChange({ ...config, [item.label]: value })}
             />
