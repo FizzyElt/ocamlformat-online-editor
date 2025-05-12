@@ -1,4 +1,4 @@
-import { Box, Text, Clipboard, IconButton } from "@chakra-ui/react";
+import { Box, Text, Clipboard, IconButton, Stack } from "@chakra-ui/react";
 
 import { Config, selectList } from "../type";
 
@@ -7,13 +7,16 @@ interface ConfigBlockProps {
 }
 
 const ConfigBlock = ({ config }: ConfigBlockProps) => {
-  const configContent = selectList
+  const configPair = selectList
     .map((item) => [item.label, config[item.label]])
     .filter(([_, value]) => value !== "")
-    .map(
-      ([key, value]) =>
-        `${key.replaceAll("_", "-")}=${value.replaceAll("_", "-")}`,
-    )
+    .map(([key, value]) => [
+      key.replaceAll("_", "-"),
+      value.replaceAll("_", "-"),
+    ]);
+
+  const configContent = configPair
+    .map(([key, value]) => `${key}=${value}`)
     .join("\n");
 
   return (
@@ -21,15 +24,27 @@ const ConfigBlock = ({ config }: ConfigBlockProps) => {
       p={4}
       h="full"
       w="full"
-      minH="full"
+      minH="200px"
       rounded="sm"
       border="solid 1px"
       borderColor="gray.300"
-      overflowY="scroll"
+      pos="relative"
     >
-      <Text color="gray.600" as="pre">
-        {configContent}
-      </Text>
+      <Stack gap={1}>
+        {configPair.map(([key, value]) => (
+          <Box as="p" key={key}>
+            <Text fontSize="md" as="span" color="blue.500">
+              {key}
+            </Text>
+            <Text fontSize="md" as="span" color="gray.600">
+              =
+            </Text>
+            <Text fontSize="md" as="span" color="orange.600">
+              {value}
+            </Text>
+          </Box>
+        ))}
+      </Stack>
       <Clipboard.Root pos="absolute" top="2" right="2" value={configContent}>
         <Clipboard.Trigger asChild>
           <IconButton variant="surface" size="xs">

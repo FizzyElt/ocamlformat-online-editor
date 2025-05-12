@@ -1,17 +1,22 @@
 import {
-  Flex,
-  Spacer,
   Box,
   Button,
+  CloseButton,
+  Dialog,
+  Flex,
   Grid,
   GridItem,
+  HStack,
   Link,
+  Portal,
+  Spacer,
+  useDialog,
 } from "@chakra-ui/react";
-import Editor from "./components/editor";
 import { useState } from "react";
+import ConfigBlock from "./components/config_block";
+import Editor from "./components/editor";
 import ConfigForm from "./ConfigForm";
 import { Config, defaultConfig } from "./type";
-import ConfigBlock from "./components/config_block";
 
 if (!import.meta.env.DEV) {
   // @ts-ignore
@@ -28,64 +33,106 @@ function App() {
   const [triggerKey, setTriggerKey] = useState(0);
   const [config, setConfig] = useState<Config>(defaultConfig);
 
+  const dialog = useDialog();
+
   return (
-    <Box w="100vw" h="100vh">
-      <Grid
-        gap={4}
-        p={5}
-        w="full"
-        h="full"
-        templateColumns="repeat(2, 1fr)"
-        templateRows="repeat(2, 1fr)"
+    <>
+      <Box w="100vw" h="100vh">
+        <Grid
+          gap={4}
+          p={5}
+          w="full"
+          h="full"
+          templateColumns="repeat(2, 1fr)"
+          templateRows="repeat(2, 1fr)"
+        >
+          <GridItem colSpan={1} rowSpan={2} overflowY="scroll">
+            <Box minH="full">
+              <Flex
+                mb={4}
+                px={4}
+                pos="sticky"
+                top={0}
+                bg="white"
+                zIndex="sticky"
+              >
+                <Link
+                  variant="underline"
+                  href="https://github.com/FizzyElt/ocamlformat-online-editor"
+                  target="_blank"
+                >
+                  Github
+                </Link>
+                <Spacer />
+                <HStack>
+                  <Button
+                    size="xs"
+                    colorPalette="teal"
+                    onClick={() => dialog.setOpen(true)}
+                  >
+                    config
+                  </Button>
+                  <Button
+                    size="xs"
+                    colorPalette="blue"
+                    onClick={() => {
+                      const configEntries = Object.entries(config).filter(
+                        ([_, value]) => value !== "",
+                      );
+                      if (window.format) {
+                        const result = window.format(configEntries, content);
+                        setContent(result);
+                        setTriggerKey(triggerKey + 1);
+                      }
+                    }}
+                  >
+                    format
+                  </Button>
+                </HStack>
+              </Flex>
+              <ConfigForm config={config} onChange={setConfig} />
+            </Box>
+          </GridItem>
+          <GridItem colSpan={1} rowSpan={2}>
+            <Box h="full">
+              <Editor
+                triggerKey={triggerKey}
+                boxSizing="content-box"
+                h="full"
+                w="full"
+                codeContent={content}
+                onCodeChange={setContent}
+              />
+            </Box>
+          </GridItem>
+          {/* <GridItem colSpan={1} rowSpan={1} overflowY="auto" pos="relative">
+            <ConfigBlock config={config} />
+          </GridItem> */}
+        </Grid>
+      </Box>
+      <Dialog.RootProvider
+        value={dialog}
+        placement="center"
+        scrollBehavior="inside"
       >
-        <GridItem colSpan={1} rowSpan={1} overflowY="scroll">
-          <Box minH="full">
-            <Flex mb={4} px={4} pos="sticky" top={0} bg="white" zIndex="sticky">
-              <Link
-                variant="underline"
-                href="https://github.com/FizzyElt/ocamlformat-online-editor"
-                target="_blank"
-              >
-                Github
-              </Link>
-              <Spacer />
-              <Button
-                size="xs"
-                colorPalette="blue"
-                onClick={() => {
-                  const configEntries = Object.entries(config).filter(
-                    ([_, value]) => value !== "",
-                  );
-                  if (window.format) {
-                    const result = window.format(configEntries, content);
-                    setContent(result);
-                    setTriggerKey(triggerKey + 1);
-                  }
-                }}
-              >
-                format
-              </Button>
-            </Flex>
-            <ConfigForm config={config} onChange={setConfig} />
-          </Box>
-        </GridItem>
-        <GridItem colSpan={1} rowSpan={2}>
-          <Box h="full">
-            <Editor
-              triggerKey={triggerKey}
-              boxSizing="content-box"
-              h="full"
-              w="full"
-              codeContent={content}
-              onCodeChange={setContent}
-            />
-          </Box>
-        </GridItem>
-        <GridItem colSpan={1} rowSpan={1} overflowY="auto" pos="relative">
-          <ConfigBlock config={config} />
-        </GridItem>
-      </Grid>
-    </Box>
+        <Portal>
+          <Dialog.Backdrop />
+          <Dialog.Positioner>
+            <Dialog.Content>
+              <Dialog.CloseTrigger asChild>
+                <CloseButton size="sm" />
+              </Dialog.CloseTrigger>
+              <Dialog.Header>
+                <Dialog.Title>Config file</Dialog.Title>
+              </Dialog.Header>
+              <Dialog.Body>
+                <ConfigBlock config={config} />
+              </Dialog.Body>
+            </Dialog.Content>
+          </Dialog.Positioner>
+        </Portal>
+      </Dialog.RootProvider>
+    </>
   );
 }
 
