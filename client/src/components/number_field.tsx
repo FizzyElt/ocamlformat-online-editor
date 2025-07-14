@@ -1,4 +1,4 @@
-import { Input, Field } from "@chakra-ui/react";
+import { Field, Input } from "@chakra-ui/react";
 
 type NumberFieldProps = {
   label: string;

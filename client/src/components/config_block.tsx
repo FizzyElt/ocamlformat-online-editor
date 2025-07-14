@@ -1,4 +1,4 @@
-import { Box, Text, Clipboard, IconButton, Stack } from "@chakra-ui/react";
+import { Box, Clipboard, IconButton, Stack, Text } from "@chakra-ui/react";
 
 import { Config, selectList } from "../type";
 

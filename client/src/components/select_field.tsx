@@ -1,4 +1,4 @@
-import { NativeSelect, Field } from "@chakra-ui/react";
+import { Field, NativeSelect } from "@chakra-ui/react";
 
 interface SelectFieldProps {
   label: string;

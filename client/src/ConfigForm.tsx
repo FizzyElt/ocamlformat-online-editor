@@ -1,6 +1,6 @@
 import { Box, SimpleGrid } from "@chakra-ui/react";
-import SelectField from "./components/select_field";
 import NumberField from "./components/number_field";
+import SelectField from "./components/select_field";
 import { Config, selectList } from "./type";
 
 interface ConfigFormProps {

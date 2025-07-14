@@ -13,15 +13,11 @@ import {
   useDialog,
 } from "@chakra-ui/react";
 import { useState } from "react";
+import ConfigForm from "./ConfigForm";
 import ConfigBlock from "./components/config_block";
 import Editor from "./components/editor";
-import ConfigForm from "./ConfigForm";
 import { Config, defaultConfig } from "./type";
 
-if (!import.meta.env.DEV) {
-  // @ts-ignore
-  import("./main.bc.js").then(() => console.log("load success"));
-}
 
 declare global {
   interface Window {
