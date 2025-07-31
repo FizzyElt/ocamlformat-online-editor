@@ -4,3 +4,4 @@ exp-grouping=preserve
 margin=80
 module-item-spacing=preserve
 sequence-blank-line=preserve-one
+if-then-else=k-r
