@@ -410,8 +410,7 @@ let parse_config (list : Js.js_string Js.t matrix_js_t) =
 ;;
 
 let create_config (list : (string * string) list) =
-  let htbl = Hashtbl.create (List.length list) in
-  List.iter (fun (k, v) -> Hashtbl.add htbl k v) list;
+  let htbl = list |> List.to_seq |> Hashtbl.of_seq in
 
   let conf =
     match Hashtbl.find_opt htbl "profile" with
@@ -421,23 +420,17 @@ let create_config (list : (string * string) list) =
     | Some "janestreet" -> janestreet_profile
     | Some _ | None -> Conf.default
   in
+
   let conf =
     config_options
+    |> List.append int_config_options
     |> List.fold_left
          (fun c (name, updater) ->
-            match Hashtbl.find_opt htbl name with
-            | Some v -> updater c v
-            | None -> c)
+            Hashtbl.find_opt htbl name
+            |> Option.map (updater c)
+            |> Option.value ~default:c)
          conf
   in
-  let conf =
-    int_config_options
-    |> List.fold_left
-         (fun c (name, updater) ->
-            match Hashtbl.find_opt htbl name with
-            | Some v -> updater c v
-            | None -> c)
-         conf
-  in
+
   conf
 ;;
