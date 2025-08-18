@@ -15,4 +15,4 @@ An online ocamlformat config editor for OCaml developers to customize formatting
 ## ocamlformat js
 
 - ocamlformat 0.27.0
-- js_of_ocaml 6.0.1
+- js_of_ocaml 6.2.0
