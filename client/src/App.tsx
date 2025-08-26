@@ -16,14 +16,9 @@ import { useState } from "react";
 import ConfigForm from "./ConfigForm";
 import ConfigBlock from "./components/config_block";
 import Editor from "./components/editor";
+import { Toaster, toaster } from "./components/ui/toaster";
 import { Config, defaultConfig } from "./type";
 
-
-declare global {
-  interface Window {
-    format?: (conf: [string, string][], content: string) => string;
-  }
-}
 function App() {
   const [content, setContent] = useState("");
   const [triggerKey, setTriggerKey] = useState(0);
@@ -75,10 +70,32 @@ function App() {
                       const configEntries = Object.entries(config).filter(
                         ([_, value]) => value !== "",
                       );
-                      if (window.format) {
-                        const result = window.format(configEntries, content);
-                        setContent(result);
-                        setTriggerKey(triggerKey + 1);
+                      if (window.ocamlFmt.format) {
+                        try {
+                          const result = window.ocamlFmt.format(
+                            configEntries,
+                            content,
+                          );
+                          console.log(result);
+                          if (result !== null) {
+                            setContent(result);
+                            setTriggerKey(triggerKey + 1);
+                            return;
+                          }
+                          toaster.dismiss();
+                          toaster.create({
+                            type: "error",
+                            description: "format error",
+                            duration: 1000,
+                          });
+                        } catch (e) {
+                          toaster.dismiss();
+                          toaster.create({
+                            type: "error",
+                            description: "format error",
+                            duration: 1000,
+                          });
+                        }
                       }
                     }}
                   >
@@ -128,6 +145,7 @@ function App() {
           </Dialog.Positioner>
         </Portal>
       </Dialog.RootProvider>
+      <Toaster />
     </>
   );
 }

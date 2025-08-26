@@ -1,3 +1,11 @@
+declare global {
+  interface Window {
+    ocamlFmt: {
+      format: (config: [string, string][], input: string) => string | null;
+    };
+  }
+}
+
 export type Config = {
   profile: string;
   align_symbol_open_paren: string;
