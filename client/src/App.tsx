@@ -76,7 +76,6 @@ function App() {
                             configEntries,
                             content,
                           );
-                          console.log(result);
                           if (result !== null) {
                             setContent(result);
                             setTriggerKey(triggerKey + 1);

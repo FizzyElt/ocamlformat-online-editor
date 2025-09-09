@@ -47,7 +47,7 @@ const Editor = (props: EditorProps) => {
 
   useEffect(() => {
     if (triggerKey) {
-      //editorRef.current?.setValue(codeContent);
+      editorRef.current?.setValue(codeContent);
     }
   }, [triggerKey]);
 
