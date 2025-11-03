@@ -5,22 +5,24 @@
 (generate_opam_files false)
 
 (source
- (github username/reponame))
+ (github fizzyelt/ocamlfmt_js))
 
-(authors "Author Name <author@example.com>")
+(authors "FizzyElt")
 
-(maintainers "Maintainer Name <maintainer@example.com>")
+(maintainers "fizzyelt.dev@outlook.com")
 
 (license LICENSE)
-
-(documentation https://url/to/documentation)
 
 (package
  (name ocamlfmt_js)
  (synopsis "A short synopsis")
  (description "A longer description")
- (depends ocaml)
- (tags
-  ("add topics" "to describe" your project)))
+ (depends
+  (ocaml
+   (>= 5.3))
+  (js_of_ocaml
+   (>= 6.2))
+  (ocamlformat
+   (= 0.28.1))))
 
 ; See the complete stanza docs at https://dune.readthedocs.io/en/stable/reference/dune-project/index.html

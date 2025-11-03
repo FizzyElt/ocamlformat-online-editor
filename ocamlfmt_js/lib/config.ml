@@ -390,34 +390,50 @@ let make_int_option_updater name updater =
 
 let int_config_options =
     let elt content = Conf.Elt.make content `Default in
-    [ make_int_option_updater "cases_exp_indent" (fun conf v ->
+
+    [ (* cases_exp_indent *)
+      make_int_option_updater "cases_exp_indent" (fun conf v ->
         { conf with fmt_opts = { conf.fmt_opts with cases_exp_indent = elt v } } );
+      (* doc_comments_padding *)
       make_int_option_updater "doc_comments_padding" (fun conf v ->
         { conf with
           fmt_opts = { conf.fmt_opts with doc_comments_padding = elt v }
         } );
+      (* extension_indent *)
       make_int_option_updater "extension_indent" (fun conf v ->
         { conf with fmt_opts = { conf.fmt_opts with extension_indent = elt v } } );
+      (* function_indent *)
       make_int_option_updater "function_indent" (fun conf v ->
         { conf with fmt_opts = { conf.fmt_opts with function_indent = elt v } } );
+      (* indent_after_in *)
       make_int_option_updater "indent_after_in" (fun conf v ->
         { conf with fmt_opts = { conf.fmt_opts with indent_after_in = elt v } } );
+      (* let_binding_indent *)
       make_int_option_updater "let_binding_indent" (fun conf v ->
         { conf with
           fmt_opts = { conf.fmt_opts with let_binding_indent = elt v }
         } );
+      (* margin *)
       make_int_option_updater "margin" (fun conf v ->
+        (* let_binding_indent *)
         { conf with fmt_opts = { conf.fmt_opts with margin = elt v } } );
+      (* match_indent *)
       make_int_option_updater "match_indent" (fun conf v ->
         { conf with fmt_opts = { conf.fmt_opts with match_indent = elt v } } );
+      (* max_indent *)
       make_int_option_updater "max_indent" (fun conf v ->
         { conf with
           fmt_opts = { conf.fmt_opts with max_indent = elt (Some v) }
         } );
+      (* module_indent *)
+      make_int_option_updater "module_indent" (fun conf v ->
+        { conf with fmt_opts = { conf.fmt_opts with module_indent = elt v } } );
+      (* stritem_extension_indent *)
       make_int_option_updater "stritem_extension_indent" (fun conf v ->
         { conf with
           fmt_opts = { conf.fmt_opts with stritem_extension_indent = elt v }
         } );
+      (* type_decl_indent *)
       make_int_option_updater "type_decl_indent" (fun conf v ->
         { conf with fmt_opts = { conf.fmt_opts with type_decl_indent = elt v } } )
     ]

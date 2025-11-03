@@ -51,6 +51,7 @@ export type Config = {
   match_indent: string;
   match_indent_nested: string;
   max_indent: string;
+  module_indent: string;
   module_item_spacing: string;
   nested_match: string;
   ocp_indent_compat: string;
@@ -118,6 +119,7 @@ export const defaultConfig: Config = {
   match_indent: "",
   match_indent_nested: "",
   max_indent: "",
+  module_indent: "",
   module_item_spacing: "",
   nested_match: "",
   ocp_indent_compat: "",
@@ -309,6 +311,10 @@ export const selectList: (StrOption | IntOption)[] = [
     options: ["", "always", "auto", "never"],
   },
   { valueType: "int", label: "max_indent" },
+  {
+    valueType: "int",
+    label: "module_indent",
+  },
   {
     valueType: "str",
     label: "module_item_spacing",
