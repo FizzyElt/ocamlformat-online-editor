@@ -21,10 +21,12 @@ interface EditorProps extends BoxProps {
   codeContent: string;
   triggerKey: number;
   onCodeChange: (code: string) => void;
+  readOnly?: boolean;
 }
 
 const Editor = (props: EditorProps) => {
-  const { codeContent, onCodeChange, triggerKey, ...restProps } = props;
+  const { codeContent, onCodeChange, triggerKey, readOnly, ...restProps } =
+    props;
   const boxRef = useRef(null);
   const editorRef = useRef<monaco.editor.IStandaloneCodeEditor>(null);
 
@@ -34,6 +36,7 @@ const Editor = (props: EditorProps) => {
         value: codeContent,
         language: "ocaml",
         theme: "one-dark-pro",
+        readOnly: readOnly,
         autoDetectHighContrast: false,
       });
 

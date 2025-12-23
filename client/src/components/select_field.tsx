@@ -11,9 +11,9 @@ const SelectField = (props: SelectFieldProps) => {
   const { label, value, options, onChange } = props;
 
   return (
-    <Field.Root>
-      <Field.Label>{label}</Field.Label>
-      <NativeSelect.Root size="sm">
+    <Field.Root >
+      <Field.Label fontSize="lg">{label}</Field.Label>
+      <NativeSelect.Root size="lg">
         <NativeSelect.Field
           value={value}
           onChange={(e) => onChange(e.currentTarget.value)}

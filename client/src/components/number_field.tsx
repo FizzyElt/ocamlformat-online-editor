@@ -11,9 +11,9 @@ const NumberField = (props: NumberFieldProps) => {
 
   return (
     <Field.Root>
-      <Field.Label>{label}</Field.Label>
+      <Field.Label fontSize="lg">{label}</Field.Label>
       <Input
-        size="xs"
+        size="lg"
         placeholder="Integer"
         value={value}
         onChange={(e) =>
