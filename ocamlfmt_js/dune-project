@@ -22,6 +22,8 @@
    (>= 5.3))
   (js_of_ocaml
    (>= 6.2))
+  (js_of_ocaml-ppx
+   (>= 6.2))
   (ocamlformat
    (= 0.28.1))))
 
