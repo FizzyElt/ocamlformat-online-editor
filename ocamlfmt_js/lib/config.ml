@@ -261,6 +261,12 @@ let config_options =
         [ ("compact", `Compact); ("sparse", `Sparse) ]
         (fun conf v ->
            { conf with fmt_opts = { conf.fmt_opts with let_module = elt v } } );
+      (* letop_punning *)
+      make_option_updater
+        "letop_punning"
+        [ ("always", `Always); ("never", `Never); ("preserve", `Preserve) ]
+        (fun conf v ->
+           { conf with fmt_opts = { conf.fmt_opts with letop_punning = elt v } } );
       (* line_endings *)
       make_option_updater
         "line_endings"

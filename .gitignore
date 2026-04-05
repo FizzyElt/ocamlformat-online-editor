@@ -1,4 +1,6 @@
+# ocaml
 _build
+dune.lock
 # Logs
 logs
 *.log

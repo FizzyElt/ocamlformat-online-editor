@@ -25,6 +25,6 @@
   (js_of_ocaml-ppx
    (>= 6.2))
   (ocamlformat
-   (= 0.28.1))))
+   (= 0.29.0))))
 
 ; See the complete stanza docs at https://dune.readthedocs.io/en/stable/reference/dune-project/index.html
