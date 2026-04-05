@@ -1,48 +1,49 @@
 import { Box, SimpleGrid } from "@chakra-ui/react";
+
 import NumberField from "./components/number_field";
 import SelectField from "./components/select_field";
 import { Config, selectList } from "./type";
 
 interface ConfigFormProps {
-  config: Config;
-  onChange: (config: Config) => void;
+    config: Config;
+    onChange: (config: Config) => void;
 }
 
-const ConfigForm = (props: ConfigFormProps) => {
-  const { config, onChange } = props;
+const ConfigForm = (props: ConfigFormProps): React.ReactNode => {
+    const { config, onChange } = props;
 
-  return (
-    <Box p={4}>
-      <SimpleGrid columns={{ base: 1, xl: 2 }} gap={4}>
-        {selectList.map((item) => {
-          if (item.valueType === "str") {
-            return (
-              <SelectField
-                key={item.label}
-                label={item.label.replaceAll("_", "-")}
-                value={config[item.label]}
-                onChange={(value) =>
-                  onChange({
-                    ...config,
-                    [item.label]: value,
-                  })
-                }
-                options={item.options}
-              />
-            );
-          }
-          return (
-            <NumberField
-              key={item.label}
-              label={item.label.replaceAll("_", "-")}
-              value={config[item.label]}
-              onChange={(value) => onChange({ ...config, [item.label]: value })}
-            />
-          );
-        })}
-      </SimpleGrid>
-    </Box>
-  );
+    return (
+        <Box p={4}>
+            <SimpleGrid columns={{ base: 1, xl: 2 }} gap={4}>
+                {selectList.map((item) => {
+                    if (item.valueType === "str") {
+                        return (
+                            <SelectField
+                                key={item.label}
+                                label={item.label.replaceAll("_", "-")}
+                                value={config[item.label]}
+                                onChange={(value) =>
+                                    onChange({
+                                        ...config,
+                                        [item.label]: value,
+                                    })
+                                }
+                                options={item.options}
+                            />
+                        );
+                    }
+                    return (
+                        <NumberField
+                            key={item.label}
+                            label={item.label.replaceAll("_", "-")}
+                            value={config[item.label]}
+                            onChange={(value) => onChange({ ...config, [item.label]: value })}
+                        />
+                    );
+                })}
+            </SimpleGrid>
+        </Box>
+    );
 };
 
 export default ConfigForm;

@@ -1,34 +1,31 @@
 import { Field, NativeSelect } from "@chakra-ui/react";
 
 interface SelectFieldProps {
-  label: string;
-  value: string;
-  options: string[];
-  onChange: (value: string) => void;
+    label: string;
+    value: string;
+    options: string[];
+    onChange: (value: string) => void;
 }
 
-const SelectField = (props: SelectFieldProps) => {
-  const { label, value, options, onChange } = props;
+const SelectField = (props: SelectFieldProps): React.ReactNode => {
+    const { label, value, options, onChange } = props;
 
-  return (
-    <Field.Root >
-      <Field.Label fontSize="lg">{label}</Field.Label>
-      <NativeSelect.Root size="lg">
-        <NativeSelect.Field
-          value={value}
-          onChange={(e) => onChange(e.currentTarget.value)}
-        >
-          {options.map((opt) => {
-            return (
-              <option key={opt === "" ? "empty" : opt} value={opt}>
-                {opt === "" ? "--" : opt.replaceAll("_", "-")}
-              </option>
-            );
-          })}
-        </NativeSelect.Field>
-      </NativeSelect.Root>
-    </Field.Root>
-  );
+    return (
+        <Field.Root>
+            <Field.Label fontSize="lg">{label}</Field.Label>
+            <NativeSelect.Root size="lg">
+                <NativeSelect.Field value={value} onChange={(e) => onChange(e.currentTarget.value)}>
+                    {options.map((opt) => {
+                        return (
+                            <option key={opt === "" ? "empty" : opt} value={opt}>
+                                {opt === "" ? "--" : opt.replaceAll("_", "-")}
+                            </option>
+                        );
+                    })}
+                </NativeSelect.Field>
+            </NativeSelect.Root>
+        </Field.Root>
+    );
 };
 
 export default SelectField;
